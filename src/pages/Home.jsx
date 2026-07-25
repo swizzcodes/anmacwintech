@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import fullLogo from "../assets/logo-full.png";
 import iconLogo from "../assets/logo-icon.png";
 import heroWoman from "../assets/hero-woman.png";
@@ -14,6 +14,66 @@ const SERVICE_LINKS = [
   { label: "Eligibility Verification", href: "http://localhost:5173/#" },
   { label: "Medical Billing Audit", href: "http://localhost:5173/#" },
 ];
+
+// Animates a number counting up from 0 to `target` once it scrolls into view.
+function CountUp({ target, suffix = "", prefix = "", duration = 1600 }) {
+  const [value, setValue] = useState(0);
+  const spanRef = useRef(null);
+  const hasStarted = useRef(false);
+
+  useEffect(() => {
+    const node = spanRef.current;
+    if (!node) return;
+
+    const runAnimation = () => {
+      if (hasStarted.current) return;
+      hasStarted.current = true;
+      const startTime = performance.now();
+
+      const step = (now) => {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        // ease-out cubic for a natural deceleration near the end
+        const eased = 1 - Math.pow(1 - progress, 3);
+        setValue(Math.round(eased * target));
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          setValue(target);
+        }
+      };
+      requestAnimationFrame(step);
+    };
+
+    if (typeof IntersectionObserver === "undefined") {
+      // Fallback for environments without IntersectionObserver support
+      runAnimation();
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            runAnimation();
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.4 }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [target, duration]);
+
+  return (
+    <span ref={spanRef}>
+      {prefix}
+      {value}
+      {suffix}
+    </span>
+  );
+}
 
 function Home(){
     const navigate = useNavigate();
@@ -297,10 +357,7 @@ function Home(){
           <div>
             <div className="label">Increase Collections</div>
             <div className="value">
-              Up to{" "}
-              <span className="count-up" data-target={30} data-suffix="%">
-                0%
-              </span>
+              Up to <CountUp target={30} suffix="%" />
             </div>
           </div>
         </div>
@@ -314,9 +371,7 @@ function Home(){
           <div>
             <div className="label">Claim Approval Rate</div>
             <div className="value">
-              <span className="count-up" data-target={98} data-suffix="%">
-                0%
-              </span>
+              <CountUp target={98} suffix="%" />
             </div>
           </div>
         </div>
@@ -332,9 +387,7 @@ function Home(){
           <div>
             <div className="label">Days in A/R</div>
             <div className="value">
-              <span className="count-up" data-target={18} data-suffix="">
-                0
-              </span>
+              <CountUp target={18} />
             </div>
           </div>
         </div>
