@@ -1,11 +1,30 @@
+import { useState } from "react";
 import fullLogo from "../assets/logo-full.png";
 import iconLogo from "../assets/logo-icon.png";
 import heroWoman from "../assets/hero-woman.png";
 import heroMan from "../assets/hero-man.png";
 import { useNavigate } from "react-router-dom";
 
+const SERVICE_LINKS = [
+  { label: "Medical Billing", href: "http://localhost:5173/#" },
+  { label: "Credentialing Services", href: "http://localhost:5173/#" },
+  { label: "AR Recovery", href: "http://localhost:5173/#" },
+  { label: "Denial Management", href: "http://localhost:5173/#" },
+  { label: "Payment Posting", href: "http://localhost:5173/#" },
+  { label: "Eligibility Verification", href: "http://localhost:5173/#" },
+  { label: "Medical Billing Audit", href: "http://localhost:5173/#" },
+];
+
 function Home(){
-        const navigate = useNavigate();
+    const navigate = useNavigate();
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+
+    const openMobileMenu = () => setMobileOpen(true);
+    const closeMobileMenu = () => {
+        setMobileOpen(false);
+        setMobileServicesOpen(false);
+    };
 
     return(
         <>
@@ -15,7 +34,7 @@ function Home(){
   <style
     dangerouslySetInnerHTML={{
       __html:
-        "\n  :root{\n    --navy:#122a4d;\n    --navy-dark:#0d2038;\n    --blue:#1e5fa8;\n    --teal:#1aa79e;\n    --teal-light:#e7f6f4;\n    --ice:#eef5fb;\n    --text:#2b3648;\n    --muted:#647184;\n    --white:#ffffff;\n    --border:#e4ebf2;\n  }\n  *{box-sizing:border-box;margin:0;padding:0;}\n  body{\n    font-family:'Segoe UI',Arial,Helvetica,sans-serif;\n    color:var(--text);\n    background:var(--white);\n    line-height:1.5;\n  }\n  img{max-width:100%;display:block;}\n  .icon-svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}\n  a{text-decoration:none;color:inherit;}\n  ul{list-style:none;}\n  .container{\n    max-width:1180px;\n    margin:0 auto;\n    padding:0 24px;\n  }\n  .eyebrow{\n    color:var(--teal);\n    font-weight:700;\n    letter-spacing:1.5px;\n    font-size:13px;\n    text-transform:uppercase;\n    margin-bottom:8px;\n    display:block;\n  }\n  h1,h2,h3{\n    color:var(--navy);\n    font-weight:800;\n  }\n  .btn{\n    display:inline-block;\n    padding:13px 26px;\n    border-radius:6px;\n    font-weight:600;\n    font-size:15px;\n    cursor:pointer;\n    border:2px solid transparent;\n    transition:all .2s ease;\n  }\n  .btn-primary{\n    background:var(--blue);\n    color:#fff;\n  }\n  .btn-primary:hover{background:var(--navy);}\n  .btn-outline{\n    background:transparent;\n    border-color:var(--blue);\n    color:var(--blue);\n  }\n  .btn-outline:hover{background:var(--blue);color:#fff;}\n\n  /* ===== Brand Banner ===== */\n  .brand-banner{\n    text-align:center;\n    padding:30px 0 26px;\n    background:linear-gradient(180deg,#fbfdff 0%, #ffffff 100%);\n  }\n  .brand-banner-img{\n    height:110px;\n    width:auto;\n    margin:0 auto;\n  }\n\n  /* ===== Nav ===== */\n  header.nav{\n    background:#fff;\n    border-bottom:1px solid var(--border);\n    position:sticky;\n    top:0;\n    z-index:100;\n  }\n  .nav-inner{\n    display:flex;\n    align-items:center;\n    justify-content:space-between;\n    padding:14px 24px;\n  }\n  .nav-logo{\n    display:flex;\n    align-items:center;\n    gap:8px;\n    font-weight:800;\n    color:var(--navy);\n    font-size:14px;\n    line-height:1.1;\n  }\n  .nav-logo img{width:38px;height:38px;object-fit:contain;}\n  .nav-logo .sub{\n    display:block;\n    font-size:9px;\n    letter-spacing:1px;\n    color:var(--muted);\n    font-weight:600;\n  }\n  .nav-links{\n    display:flex;\n    gap:26px;\n    font-size:14.5px;\n    font-weight:600;\n    color:var(--text);\n  }\n  .nav-links li a{\n    display:flex;\n    align-items:center;\n    gap:4px;\n  }\n  .burger svg{display:block;}\n  .nav-links li a:hover{color:var(--blue);}\n  .nav-cta{\n    background:var(--blue);\n    color:#fff;\n    padding:11px 20px;\n    border-radius:6px;\n    font-weight:600;\n    font-size:14px;\n    white-space:nowrap;\n  }\n  .nav-cta:hover{background:var(--navy);}\n  .burger{display:none;background:none;border:none;font-size:24px;color:var(--navy);cursor:pointer;}\n\n  /* ===== Mobile slide-out menu ===== */\n  .mobile-overlay{\n    position:fixed;\n    inset:0;\n    background:rgba(13,32,56,.55);\n    opacity:0;\n    visibility:hidden;\n    transition:opacity .3s ease, visibility .3s ease;\n    z-index:199;\n  }\n  .mobile-overlay.active{opacity:1;visibility:visible;}\n  .mobile-drawer{\n    position:fixed;\n    top:0;\n    right:0;\n    height:100%;\n    width:80%;\n    max-width:320px;\n    background:#fff;\n    z-index:200;\n    box-shadow:-8px 0 30px rgba(18,42,77,.2);\n    transform:translateX(100%);\n    transition:transform .35s cubic-bezier(.4,0,.2,1);\n    display:flex;\n    flex-direction:column;\n    overflow-y:auto;\n  }\n  .mobile-drawer.active{transform:translateX(0);}\n  .mobile-drawer-head{\n    display:flex;\n    align-items:center;\n    justify-content:space-between;\n    padding:18px 20px;\n    border-bottom:1px solid var(--border);\n  }\n  .mobile-drawer-head .nav-logo{font-size:13px;}\n  .mobile-drawer-head .nav-logo img{width:32px;height:32px;}\n  .mobile-close{\n    background:var(--ice);\n    border:none;\n    width:34px;height:34px;\n    border-radius:50%;\n    display:flex;align-items:center;justify-content:center;\n    color:var(--navy);\n    cursor:pointer;\n    flex-shrink:0;\n  }\n  .mobile-drawer-links{\n    display:flex;\n    flex-direction:column;\n    padding:10px 8px;\n  }\n  .mobile-drawer-links li a{\n    display:flex;\n    align-items:center;\n    justify-content:space-between;\n    padding:15px 14px;\n    font-size:15.5px;\n    font-weight:600;\n    color:var(--navy);\n    border-bottom:1px solid var(--border);\n  }\n  .mobile-drawer-links li a:active,\n  .mobile-drawer-links li a:hover{color:var(--blue);}\n  .mobile-drawer-links li a svg{color:#b7c2d1;}\n  .mobile-drawer-cta{\n    margin:20px;\n    text-align:center;\n  }\n  .mobile-drawer-cta .btn{width:100%;}\n  body.drawer-open{overflow:hidden;}\n\n  /* ===== Hero ===== */\n  .hero{\n    background:var(--ice);\n    padding:56px 0 60px;\n  }\n  .hero-grid{\n    display:grid;\n    grid-template-columns:1fr 1.15fr;\n    gap:40px;\n    align-items:center;\n  }\n  .hero h2{\n    font-size:40px;\n    line-height:1.18;\n  }\n  .hero h2 .accent{color:var(--teal);}\n  .hero p.lead{\n    margin-top:18px;\n    font-size:16px;\n    color:var(--text);\n    font-weight:600;\n    max-width:460px;\n  }\n  .hero p.sub{\n    margin-top:10px;\n    color:var(--muted);\n    font-size:14.5px;\n    max-width:460px;\n  }\n  .hero-actions{\n    display:flex;\n    gap:14px;\n    margin-top:26px;\n  }\n  .hero-trust{\n    display:flex;\n    gap:26px;\n    margin-top:34px;\n    flex-wrap:wrap;\n  }\n  .hero-trust li{\n    display:flex;\n    align-items:center;\n    gap:8px;\n    font-size:13px;\n    font-weight:600;\n    color:var(--navy);\n  }\n  .hero-trust li .dot{\n    width:30px;height:30px;\n    border-radius:50%;\n    background:var(--teal-light);\n    color:var(--teal);\n    display:flex;align-items:center;justify-content:center;\n    font-size:15px;\n  }\n  .hero-visual{\n    position:relative;\n  }\n  .hero-photo{\n    position:relative;\n    isolation:isolate;\n  }\n  .hero-photo img{\n    width:100%;height:340px;object-fit:cover;object-position:top center;display:block;\n    border-radius:16px;\n    -webkit-mask-image: radial-gradient(ellipse 68% 62% at 50% 46%, #000 55%, rgba(0,0,0,.55) 72%, transparent 96%);\n    mask-image: radial-gradient(ellipse 68% 62% at 50% 46%, #000 55%, rgba(0,0,0,.55) 72%, transparent 96%);\n    filter:drop-shadow(0 20px 35px rgba(18,42,77,.18));\n  }\n  .stat-card{\n    position:absolute;\n    right:-10px;\n    background:#fff;\n    border-radius:14px;\n    padding:14px 20px 14px 16px;\n    box-shadow:0 10px 24px rgba(18,42,77,.10), 0 2px 6px rgba(18,42,77,.06);\n    display:flex;\n    align-items:center;\n    gap:13px;\n    min-width:190px;\n    border:1px solid rgba(18,42,77,.05);\n    isolation:isolate;\n    overflow:hidden;\n    transition:transform .3s ease, box-shadow .3s ease;\n    animation:statPop .6s ease backwards;\n  }\n  .stat-card::before{\n    content:\"\";\n    position:absolute;\n    left:0;top:0;bottom:0;\n    width:4px;\n    border-radius:0 4px 4px 0;\n  }\n  .stat-card:hover{\n    transform:translateY(-4px) scale(1.02);\n    box-shadow:0 18px 34px rgba(18,42,77,.16), 0 4px 10px rgba(18,42,77,.08);\n  }\n  @keyframes statPop{\n    from{opacity:0; transform:translateY(10px) scale(.96);}\n    to{opacity:1; transform:translateY(0) scale(1);}\n  }\n  .stat-card .icon{\n    width:40px;height:40px;\n    border-radius:11px;\n    display:flex;align-items:center;justify-content:center;\n    flex-shrink:0;\n    box-shadow:inset 0 0 0 1px rgba(255,255,255,.5);\n  }\n  .stat-card .icon svg{width:20px;height:20px;stroke-width:2.1;}\n  .stat-card .label{font-size:10.5px;color:var(--muted);font-weight:700;letter-spacing:.3px;text-transform:uppercase;}\n  .stat-card .value{font-size:19px;font-weight:800;color:var(--navy);letter-spacing:.2px;margin-top:1px;}\n  .stat-1{top:0; animation-delay:.05s;}\n  .stat-1 .icon{background:linear-gradient(135deg,#e6f7ee,#c9f0da);color:#1aa76b;}\n  .stat-2{top:120px; animation-delay:.2s;}\n  .stat-2 .icon{background:linear-gradient(135deg,var(--teal-light),#c9ece8);color:var(--teal);}\n  .stat-3{top:240px; animation-delay:.35s;}\n  .stat-3 .icon{background:linear-gradient(135deg,#eaf1fb,#cfe1f6);color:var(--blue);}\n\n  /* ===== Section shared ===== */\n  section{padding:70px 0;}\n  .section-head{\n    text-align:center;\n    max-width:640px;\n    margin:0 auto 44px;\n  }\n  .section-head h2{font-size:30px;line-height:1.3;}\n\n  /* ===== Services ===== */\n  .services{background:var(--ice);}\n  .service-grid{\n    display:grid;\n    grid-template-columns:repeat(4,1fr);\n    gap:20px;\n  }\n  .service-card{\n    background:#fff;\n    border-radius:12px;\n    padding:26px 20px;\n    text-align:center;\n    border:1px solid var(--border);\n    transition:transform .2s ease, box-shadow .2s ease;\n  }\n  .service-card:hover{\n    transform:translateY(-4px);\n    box-shadow:0 14px 30px rgba(18,42,77,.1);\n    border-color:transparent;\n  }\n  .service-card .ico{\n    width:52px;height:52px;\n    margin:0 auto 14px;\n    border-radius:12px;\n    background:var(--teal-light);\n    color:var(--teal);\n    display:flex;align-items:center;justify-content:center;\n    font-size:22px;\n  }\n  .service-card h3{font-size:15.5px;margin-bottom:6px;}\n  .service-card p{font-size:13px;color:var(--muted);}\n\n  /* ===== Why choose ===== */\n  .why{background:#fff;}\n  .why-grid{\n    display:grid;\n    grid-template-columns:1fr 1fr;\n    gap:50px;\n    align-items:center;\n  }\n  .why-list{margin-top:18px;}\n  .why-list li{\n    display:flex;\n    align-items:flex-start;\n    gap:10px;\n    margin-bottom:12px;\n    font-size:14.5px;\n    font-weight:600;\n    color:var(--navy);\n  }\n  .why-list li .check{\n    color:var(--teal);\n    font-weight:800;\n  }\n  .why p.desc{color:var(--muted);font-size:14.5px;margin:14px 0 6px;max-width:480px;}\n  .why-visual{position:relative;}\n  .why-photo{\n    position:relative;\n    isolation:isolate;\n  }\n  .why-photo img{\n    width:100%;height:360px;object-fit:cover;\n    border-radius:16px;\n    -webkit-mask-image: radial-gradient(ellipse 66% 60% at 50% 48%, #000 55%, rgba(0,0,0,.5) 74%, transparent 97%);\n    mask-image: radial-gradient(ellipse 66% 60% at 50% 48%, #000 55%, rgba(0,0,0,.5) 74%, transparent 97%);\n    filter:drop-shadow(0 18px 30px rgba(18,42,77,.16));\n  }\n  .quote-card{\n    position:absolute;\n    left:-30px;\n    bottom:-24px;\n    background:#fff;\n    border-radius:12px;\n    padding:20px 24px;\n    box-shadow:0 16px 34px rgba(18,42,77,.16);\n    max-width:290px;\n    display:flex;\n    gap:14px;\n    align-items:flex-start;\n  }\n  .quote-card .mark{\n    color:var(--teal);\n    font-size:26px;\n    font-weight:800;\n  }\n  .quote-card p{\n    font-size:14px;\n    font-weight:700;\n    color:var(--navy);\n    line-height:1.4;\n  }\n  .quote-card .rule{\n    width:34px;height:3px;\n    background:var(--teal);\n    margin-top:10px;\n    border-radius:2px;\n  }\n\n  /* ===== Divider band ===== */\n  .band{\n    background:var(--navy-dark);\n    height:70px;\n  }\n\n  /* ===== Process ===== */\n  .process{background:#fff;padding-top:60px;}\n  .steps-row{\n    display:grid;\n    grid-template-columns:repeat(4,1fr);\n    gap:20px;\n    position:relative;\n  }\n  .step{\n    text-align:center;\n    position:relative;\n  }\n  .step .circle{\n    width:64px;height:64px;\n    border-radius:50%;\n    background:var(--teal-light);\n    color:var(--teal);\n    display:flex;align-items:center;justify-content:center;\n    font-size:24px;\n    margin:0 auto 16px;\n    border:1px solid #d8ede9;\n  }\n  .step h3{font-size:15px;margin-bottom:8px;}\n  .step p{font-size:13px;color:var(--muted);padding:0 8px;}\n  .arrow{\n    position:absolute;\n    top:32px;\n    right:-30px;\n    color:#c7d3e0;\n    font-size:20px;\n  }\n\n  /* ===== Footer ===== */\n  footer{\n    background:var(--navy-dark);\n    color:#c7d3e0;\n    padding:60px 0 26px;\n  }\n  .footer-grid{\n    display:grid;\n    grid-template-columns:1.4fr 1fr 1fr 1.2fr;\n    gap:32px;\n    padding-bottom:36px;\n    border-bottom:1px solid rgba(255,255,255,.1);\n  }\n  .footer-logo{\n    display:flex;\n    align-items:center;\n    gap:10px;\n    color:#fff;\n    font-weight:800;\n    font-size:15px;\n    margin-bottom:14px;\n  }\n  .footer-logo-badge{\n    width:42px;height:42px;\n    border-radius:10px;\n    background:#fff;\n    display:flex;align-items:center;justify-content:center;\n    padding:5px;\n    flex-shrink:0;\n  }\n  .footer-logo-badge img{width:100%;height:100%;object-fit:contain;}\n  .footer-logo .sub{display:block;font-size:9px;color:#9fb0c6;font-weight:600;}\n  footer p{font-size:13px;line-height:1.7;color:#9fb0c6;}\n  .footer-social{display:flex;gap:10px;margin-top:16px;}\n  .footer-social a{\n    width:32px;height:32px;\n    border-radius:50%;\n    background:rgba(255,255,255,.08);\n    display:flex;align-items:center;justify-content:center;\n    font-size:14px;\n  }\n  footer h4{color:#fff;font-size:14.5px;margin-bottom:16px;}\n  footer .col ul li{margin-bottom:10px;}\n  footer .col ul li a{font-size:13.5px;color:#c7d3e0;}\n  footer .col ul li a:hover{color:var(--teal);}\n  .contact-item{\n    display:flex;\n    gap:10px;\n    margin-bottom:14px;\n    font-size:13.5px;\n    color:#c7d3e0;\n  }\n  .contact-item .ic{color:var(--teal);flex-shrink:0;}\n  .footer-bottom{\n    display:flex;\n    justify-content:space-between;\n    padding-top:22px;\n    font-size:12.5px;\n    color:#8595ac;\n    flex-wrap:wrap;\n    gap:10px;\n  }\n  .footer-bottom a{color:#8595ac;}\n  .footer-bottom a:hover{color:#fff;}\n\n  /* ===== Responsive ===== */\n  @media(max-width:900px){\n    .brand-banner{display:none;}\n  }\n  @media(max-width:960px){\n    .hero-grid{grid-template-columns:1fr;}\n    .hero-visual{margin-top:30px;}\n    .stat-card{\n      position:static;\n      width:100%;\n      min-width:0;\n      margin-bottom:12px;\n      animation:none;\n    }\n    .stat-card:hover{transform:translateY(-2px);}\n    .hero-visual > div.stat-card:first-of-type{margin-top:16px;}\n    .service-grid{grid-template-columns:repeat(2,1fr);}\n    .why-grid{grid-template-columns:1fr;}\n    .why-visual{margin-bottom:60px;}\n    .steps-row{grid-template-columns:repeat(2,1fr);row-gap:36px;}\n    .arrow{display:none;}\n    .footer-grid{grid-template-columns:1fr 1fr;}\n  }\n  @media(max-width:700px){\n    .nav-links{display:none;}\n    .burger{display:block;}\n    .nav-cta{display:none;}\n    .hero h2{font-size:30px;}\n    .stat-card{padding:12px 16px;gap:11px;}\n    .stat-card .icon{width:36px;height:36px;}\n    .stat-card .value{font-size:17px;}\n    .service-grid{grid-template-columns:1fr;}\n    .steps-row{grid-template-columns:1fr;}\n    .footer-grid{grid-template-columns:1fr;}\n  }\n"
+        "\n  :root{\n    --navy:#122a4d;\n    --navy-dark:#0d2038;\n    --blue:#1e5fa8;\n    --teal:#1aa79e;\n    --teal-light:#e7f6f4;\n    --ice:#eef5fb;\n    --text:#2b3648;\n    --muted:#647184;\n    --white:#ffffff;\n    --border:#e4ebf2;\n  }\n  *{box-sizing:border-box;margin:0;padding:0;}\n  body{\n    font-family:'Segoe UI',Arial,Helvetica,sans-serif;\n    color:var(--text);\n    background:var(--white);\n    line-height:1.5;\n  }\n  img{max-width:100%;display:block;}\n  .icon-svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}\n  a{text-decoration:none;color:inherit;}\n  ul{list-style:none;}\n  .container{\n    max-width:1180px;\n    margin:0 auto;\n    padding:0 24px;\n  }\n  .eyebrow{\n    color:var(--teal);\n    font-weight:700;\n    letter-spacing:1.5px;\n    font-size:13px;\n    text-transform:uppercase;\n    margin-bottom:8px;\n    display:block;\n  }\n  h1,h2,h3{\n    color:var(--navy);\n    font-weight:800;\n  }\n  .btn{\n    display:inline-block;\n    padding:13px 26px;\n    border-radius:6px;\n    font-weight:600;\n    font-size:15px;\n    cursor:pointer;\n    border:2px solid transparent;\n    transition:all .2s ease;\n  }\n  .btn-primary{\n    background:var(--blue);\n    color:#fff;\n  }\n  .btn-primary:hover{background:var(--navy);}\n  .btn-outline{\n    background:transparent;\n    border-color:var(--blue);\n    color:var(--blue);\n  }\n  .btn-outline:hover{background:var(--blue);color:#fff;}\n\n  /* ===== Brand Banner ===== */\n  .brand-banner{\n    text-align:center;\n    padding:30px 0 26px;\n    background:linear-gradient(180deg,#fbfdff 0%, #ffffff 100%);\n  }\n  .brand-banner-img{\n    height:110px;\n    width:auto;\n    margin:0 auto;\n  }\n\n  /* ===== Nav ===== */\n  header.nav{\n    background:#fff;\n    border-bottom:1px solid var(--border);\n    position:sticky;\n    top:0;\n    z-index:100;\n  }\n  .nav-inner{\n    display:flex;\n    align-items:center;\n    justify-content:space-between;\n    padding:14px 24px;\n  }\n  .nav-logo{\n    display:flex;\n    align-items:center;\n    gap:8px;\n    font-weight:800;\n    color:var(--navy);\n    font-size:14px;\n    line-height:1.1;\n  }\n  .nav-logo img{width:38px;height:38px;object-fit:contain;}\n  .nav-logo .sub{\n    display:block;\n    font-size:9px;\n    letter-spacing:1px;\n    color:var(--muted);\n    font-weight:600;\n  }\n  .nav-links{\n    display:flex;\n    gap:26px;\n    font-size:14.5px;\n    font-weight:600;\n    color:var(--text);\n  }\n  .nav-links li a{\n    display:flex;\n    align-items:center;\n    gap:4px;\n  }\n  .burger svg{display:block;}\n  .nav-links li a:hover{color:var(--blue);}\n  .nav-cta{\n    background:var(--blue);\n    color:#fff;\n    padding:11px 20px;\n    border-radius:6px;\n    font-weight:600;\n    font-size:14px;\n    white-space:nowrap;\n  }\n  .nav-cta:hover{background:var(--navy);}\n  .burger{display:none;background:none;border:none;font-size:24px;color:var(--navy);cursor:pointer;}\n\n  /* ===== Services dropdown (desktop) ===== */\n  .nav-item-dropdown{position:relative;}\n  .nav-item-dropdown .dropdown-panel{\n    position:absolute;\n    top:calc(100% + 14px);\n    left:50%;\n    transform:translateX(-50%) translateY(6px);\n    background:#fff;\n    border-radius:10px;\n    border:1px solid var(--border);\n    box-shadow:0 16px 34px rgba(18,42,77,.14);\n    min-width:240px;\n    padding:8px;\n    opacity:0;\n    visibility:hidden;\n    pointer-events:none;\n    transition:opacity .18s ease, transform .18s ease, visibility .18s ease;\n    z-index:150;\n  }\n  .nav-item-dropdown .dropdown-panel::before{\n    content:\"\";\n    position:absolute;\n    top:-6px;\n    left:50%;\n    transform:translateX(-50%) rotate(45deg);\n    width:12px;height:12px;\n    background:#fff;\n    border-left:1px solid var(--border);\n    border-top:1px solid var(--border);\n  }\n  .nav-item-dropdown:hover .dropdown-panel,\n  .nav-item-dropdown:focus-within .dropdown-panel{\n    opacity:1;\n    visibility:visible;\n    pointer-events:auto;\n    transform:translateX(-50%) translateY(0);\n  }\n  .dropdown-panel a{\n    display:block;\n    padding:10px 14px;\n    border-radius:7px;\n    font-size:13.5px;\n    font-weight:600;\n    color:var(--navy);\n    white-space:nowrap;\n  }\n  .dropdown-panel a:hover{background:var(--ice);color:var(--blue);}\n  .nav-item-dropdown > a svg{transition:transform .18s ease;}\n  .nav-item-dropdown:hover > a svg,\n  .nav-item-dropdown:focus-within > a svg{transform:rotate(180deg);}\n\n  /* ===== Mobile slide-out menu ===== */\n  .mobile-overlay{\n    position:fixed;\n    inset:0;\n    background:rgba(13,32,56,.55);\n    opacity:0;\n    visibility:hidden;\n    transition:opacity .3s ease, visibility .3s ease;\n    z-index:199;\n  }\n  .mobile-overlay.active{opacity:1;visibility:visible;}\n  .mobile-drawer{\n    position:fixed;\n    top:0;\n    right:0;\n    height:100%;\n    width:80%;\n    max-width:320px;\n    background:#fff;\n    z-index:200;\n    box-shadow:-8px 0 30px rgba(18,42,77,.2);\n    transform:translateX(100%);\n    transition:transform .35s cubic-bezier(.4,0,.2,1);\n    display:flex;\n    flex-direction:column;\n    overflow-y:auto;\n  }\n  .mobile-drawer.active{transform:translateX(0);}\n  .mobile-drawer-head{\n    display:flex;\n    align-items:center;\n    justify-content:space-between;\n    padding:18px 20px;\n    border-bottom:1px solid var(--border);\n  }\n  .mobile-drawer-head .nav-logo{font-size:13px;}\n  .mobile-drawer-head .nav-logo img{width:32px;height:32px;}\n  .mobile-close{\n    background:var(--ice);\n    border:none;\n    width:34px;height:34px;\n    border-radius:50%;\n    display:flex;align-items:center;justify-content:center;\n    color:var(--navy);\n    cursor:pointer;\n    flex-shrink:0;\n  }\n  .mobile-drawer-links{\n    display:flex;\n    flex-direction:column;\n    padding:10px 8px;\n  }\n  .mobile-drawer-links li a{\n    display:flex;\n    align-items:center;\n    justify-content:space-between;\n    padding:15px 14px;\n    font-size:15.5px;\n    font-weight:600;\n    color:var(--navy);\n    border-bottom:1px solid var(--border);\n    cursor:pointer;\n    background:none;\n    border-left:none;border-right:none;border-top:none;\n    width:100%;\n    text-align:left;\n    font-family:inherit;\n  }\n  .mobile-drawer-links li a:active,\n  .mobile-drawer-links li a:hover{color:var(--blue);}\n  .mobile-drawer-links li a svg{color:#b7c2d1;flex-shrink:0;}\n  .mobile-services-toggle svg{transition:transform .2s ease;}\n  .mobile-services-toggle.open svg{transform:rotate(180deg);}\n  .mobile-services-panel{\n    max-height:0;\n    overflow:hidden;\n    transition:max-height .3s ease;\n    background:var(--ice);\n  }\n  .mobile-services-panel.open{max-height:400px;}\n  .mobile-services-panel a{\n    display:block;\n    padding:12px 14px 12px 30px;\n    font-size:14px;\n    font-weight:600;\n    color:var(--navy);\n    border-bottom:1px solid var(--border);\n  }\n  .mobile-services-panel a:hover{color:var(--blue);}\n  .mobile-drawer-cta{\n    margin:20px;\n    text-align:center;\n  }\n  .mobile-drawer-cta .btn{width:100%;}\n  body.drawer-open{overflow:hidden;}\n\n  /* ===== Hero ===== */\n  .hero{\n    background:var(--ice);\n    padding:56px 0 60px;\n  }\n  .hero-grid{\n    display:grid;\n    grid-template-columns:1fr 1.15fr;\n    gap:40px;\n    align-items:center;\n  }\n  .hero h2{\n    font-size:40px;\n    line-height:1.18;\n  }\n  .hero h2 .accent{color:var(--teal);}\n  .hero p.lead{\n    margin-top:18px;\n    font-size:16px;\n    color:var(--text);\n    font-weight:600;\n    max-width:460px;\n  }\n  .hero p.sub{\n    margin-top:10px;\n    color:var(--muted);\n    font-size:14.5px;\n    max-width:460px;\n  }\n  .hero-actions{\n    display:flex;\n    gap:14px;\n    margin-top:26px;\n  }\n  .hero-trust{\n    display:flex;\n    gap:26px;\n    margin-top:34px;\n    flex-wrap:wrap;\n  }\n  .hero-trust li{\n    display:flex;\n    align-items:center;\n    gap:8px;\n    font-size:13px;\n    font-weight:600;\n    color:var(--navy);\n  }\n  .hero-trust li .dot{\n    width:30px;height:30px;\n    border-radius:50%;\n    background:var(--teal-light);\n    color:var(--teal);\n    display:flex;align-items:center;justify-content:center;\n    font-size:15px;\n  }\n  .hero-visual{\n    position:relative;\n  }\n  .hero-photo{\n    position:relative;\n    isolation:isolate;\n  }\n  .hero-photo img{\n    width:100%;height:340px;object-fit:cover;object-position:top center;display:block;\n    border-radius:16px;\n    -webkit-mask-image: radial-gradient(ellipse 68% 62% at 50% 46%, #000 55%, rgba(0,0,0,.55) 72%, transparent 96%);\n    mask-image: radial-gradient(ellipse 68% 62% at 50% 46%, #000 55%, rgba(0,0,0,.55) 72%, transparent 96%);\n    filter:drop-shadow(0 20px 35px rgba(18,42,77,.18));\n  }\n  .stat-card{\n    position:absolute;\n    right:-10px;\n    background:#fff;\n    border-radius:14px;\n    padding:14px 20px 14px 16px;\n    box-shadow:0 10px 24px rgba(18,42,77,.10), 0 2px 6px rgba(18,42,77,.06);\n    display:flex;\n    align-items:center;\n    gap:13px;\n    min-width:190px;\n    border:1px solid rgba(18,42,77,.05);\n    isolation:isolate;\n    overflow:hidden;\n    transition:transform .3s ease, box-shadow .3s ease;\n    animation:statPop .6s ease backwards;\n  }\n  .stat-card::before{\n    content:\"\";\n    position:absolute;\n    left:0;top:0;bottom:0;\n    width:4px;\n    border-radius:0 4px 4px 0;\n  }\n  .stat-card:hover{\n    transform:translateY(-4px) scale(1.02);\n    box-shadow:0 18px 34px rgba(18,42,77,.16), 0 4px 10px rgba(18,42,77,.08);\n  }\n  @keyframes statPop{\n    from{opacity:0; transform:translateY(10px) scale(.96);}\n    to{opacity:1; transform:translateY(0) scale(1);}\n  }\n  .stat-card .icon{\n    width:40px;height:40px;\n    border-radius:11px;\n    display:flex;align-items:center;justify-content:center;\n    flex-shrink:0;\n    box-shadow:inset 0 0 0 1px rgba(255,255,255,.5);\n  }\n  .stat-card .icon svg{width:20px;height:20px;stroke-width:2.1;}\n  .stat-card .label{font-size:10.5px;color:var(--muted);font-weight:700;letter-spacing:.3px;text-transform:uppercase;}\n  .stat-card .value{font-size:19px;font-weight:800;color:var(--navy);letter-spacing:.2px;margin-top:1px;}\n  .stat-1{top:0; animation-delay:.05s;}\n  .stat-1 .icon{background:linear-gradient(135deg,#e6f7ee,#c9f0da);color:#1aa76b;}\n  .stat-2{top:120px; animation-delay:.2s;}\n  .stat-2 .icon{background:linear-gradient(135deg,var(--teal-light),#c9ece8);color:var(--teal);}\n  .stat-3{top:240px; animation-delay:.35s;}\n  .stat-3 .icon{background:linear-gradient(135deg,#eaf1fb,#cfe1f6);color:var(--blue);}\n\n  /* ===== Section shared ===== */\n  section{padding:70px 0;}\n  .section-head{\n    text-align:center;\n    max-width:640px;\n    margin:0 auto 44px;\n  }\n  .section-head h2{font-size:30px;line-height:1.3;}\n\n  /* ===== Services ===== */\n  .services{background:var(--ice);}\n  .service-grid{\n    display:grid;\n    grid-template-columns:repeat(4,1fr);\n    gap:20px;\n  }\n  .service-card{\n    background:#fff;\n    border-radius:12px;\n    padding:26px 20px;\n    text-align:center;\n    border:1px solid var(--border);\n    transition:transform .2s ease, box-shadow .2s ease;\n  }\n  .service-card:hover{\n    transform:translateY(-4px);\n    box-shadow:0 14px 30px rgba(18,42,77,.1);\n    border-color:transparent;\n  }\n  .service-card .ico{\n    width:52px;height:52px;\n    margin:0 auto 14px;\n    border-radius:12px;\n    background:var(--teal-light);\n    color:var(--teal);\n    display:flex;align-items:center;justify-content:center;\n    font-size:22px;\n  }\n  .service-card h3{font-size:15.5px;margin-bottom:6px;}\n  .service-card p{font-size:13px;color:var(--muted);}\n\n  /* ===== Why choose ===== */\n  .why{background:#fff;}\n  .why-grid{\n    display:grid;\n    grid-template-columns:1fr 1fr;\n    gap:50px;\n    align-items:center;\n  }\n  .why-list{margin-top:18px;}\n  .why-list li{\n    display:flex;\n    align-items:flex-start;\n    gap:10px;\n    margin-bottom:12px;\n    font-size:14.5px;\n    font-weight:600;\n    color:var(--navy);\n  }\n  .why-list li .check{\n    color:var(--teal);\n    font-weight:800;\n  }\n  .why p.desc{color:var(--muted);font-size:14.5px;margin:14px 0 6px;max-width:480px;}\n  .why-visual{position:relative;}\n  .why-photo{\n    position:relative;\n    isolation:isolate;\n  }\n  .why-photo img{\n    width:100%;height:360px;object-fit:cover;\n    border-radius:16px;\n    -webkit-mask-image: radial-gradient(ellipse 66% 60% at 50% 48%, #000 55%, rgba(0,0,0,.5) 74%, transparent 97%);\n    mask-image: radial-gradient(ellipse 66% 60% at 50% 48%, #000 55%, rgba(0,0,0,.5) 74%, transparent 97%);\n    filter:drop-shadow(0 18px 30px rgba(18,42,77,.16));\n  }\n  .quote-card{\n    position:absolute;\n    left:-30px;\n    bottom:-24px;\n    background:#fff;\n    border-radius:12px;\n    padding:20px 24px;\n    box-shadow:0 16px 34px rgba(18,42,77,.16);\n    max-width:290px;\n    display:flex;\n    gap:14px;\n    align-items:flex-start;\n  }\n  .quote-card .mark{\n    color:var(--teal);\n    font-size:26px;\n    font-weight:800;\n  }\n  .quote-card p{\n    font-size:14px;\n    font-weight:700;\n    color:var(--navy);\n    line-height:1.4;\n  }\n  .quote-card .rule{\n    width:34px;height:3px;\n    background:var(--teal);\n    margin-top:10px;\n    border-radius:2px;\n  }\n\n  /* ===== Divider band ===== */\n  .band{\n    background:var(--navy-dark);\n    height:70px;\n  }\n\n  /* ===== Process ===== */\n  .process{background:#fff;padding-top:60px;}\n  .steps-row{\n    display:grid;\n    grid-template-columns:repeat(4,1fr);\n    gap:20px;\n    position:relative;\n  }\n  .step{\n    text-align:center;\n    position:relative;\n  }\n  .step .circle{\n    width:64px;height:64px;\n    border-radius:50%;\n    background:var(--teal-light);\n    color:var(--teal);\n    display:flex;align-items:center;justify-content:center;\n    font-size:24px;\n    margin:0 auto 16px;\n    border:1px solid #d8ede9;\n  }\n  .step h3{font-size:15px;margin-bottom:8px;}\n  .step p{font-size:13px;color:var(--muted);padding:0 8px;}\n  .arrow{\n    position:absolute;\n    top:32px;\n    right:-30px;\n    color:#c7d3e0;\n    font-size:20px;\n  }\n\n  /* ===== Footer ===== */\n  footer{\n    background:var(--navy-dark);\n    color:#c7d3e0;\n    padding:60px 0 26px;\n  }\n  .footer-grid{\n    display:grid;\n    grid-template-columns:1.4fr 1fr 1fr 1.2fr;\n    gap:32px;\n    padding-bottom:36px;\n    border-bottom:1px solid rgba(255,255,255,.1);\n  }\n  .footer-logo{\n    display:flex;\n    align-items:center;\n    gap:10px;\n    color:#fff;\n    font-weight:800;\n    font-size:15px;\n    margin-bottom:14px;\n  }\n  .footer-logo-badge{\n    width:42px;height:42px;\n    border-radius:10px;\n    background:#fff;\n    display:flex;align-items:center;justify-content:center;\n    padding:5px;\n    flex-shrink:0;\n  }\n  .footer-logo-badge img{width:100%;height:100%;object-fit:contain;}\n  .footer-logo .sub{display:block;font-size:9px;color:#9fb0c6;font-weight:600;}\n  footer p{font-size:13px;line-height:1.7;color:#9fb0c6;}\n  .footer-social{display:flex;gap:10px;margin-top:16px;}\n  .footer-social a{\n    width:32px;height:32px;\n    border-radius:50%;\n    background:rgba(255,255,255,.08);\n    display:flex;align-items:center;justify-content:center;\n    font-size:14px;\n  }\n  footer h4{color:#fff;font-size:14.5px;margin-bottom:16px;}\n  footer .col ul li{margin-bottom:10px;}\n  footer .col ul li a{font-size:13.5px;color:#c7d3e0;}\n  footer .col ul li a:hover{color:var(--teal);}\n  .contact-item{\n    display:flex;\n    gap:10px;\n    margin-bottom:14px;\n    font-size:13.5px;\n    color:#c7d3e0;\n  }\n  .contact-item .ic{color:var(--teal);flex-shrink:0;}\n  .footer-bottom{\n    display:flex;\n    justify-content:space-between;\n    padding-top:22px;\n    font-size:12.5px;\n    color:#8595ac;\n    flex-wrap:wrap;\n    gap:10px;\n  }\n  .footer-bottom a{color:#8595ac;}\n  .footer-bottom a:hover{color:#fff;}\n\n  /* ===== Responsive ===== */\n  @media(max-width:900px){\n    .brand-banner{display:none;}\n  }\n  @media(max-width:960px){\n    .hero-grid{grid-template-columns:1fr;}\n    .hero-visual{margin-top:30px;}\n    .stat-card{\n      position:static;\n      width:100%;\n      min-width:0;\n      margin-bottom:12px;\n      animation:none;\n    }\n    .stat-card:hover{transform:translateY(-2px);}\n    .hero-visual > div.stat-card:first-of-type{margin-top:16px;}\n    .service-grid{grid-template-columns:repeat(2,1fr);}\n    .why-grid{grid-template-columns:1fr;}\n    .why-visual{margin-bottom:60px;}\n    .steps-row{grid-template-columns:repeat(2,1fr);row-gap:36px;}\n    .arrow{display:none;}\n    .footer-grid{grid-template-columns:1fr 1fr;}\n  }\n  @media(max-width:700px){\n    .nav-links{display:none;}\n    .burger{display:block;}\n    .nav-cta{display:none;}\n    .hero h2{font-size:30px;}\n    .stat-card{padding:12px 16px;gap:11px;}\n    .stat-card .icon{width:36px;height:36px;}\n    .stat-card .value{font-size:17px;}\n    .service-grid{grid-template-columns:1fr;}\n    .steps-row{grid-template-columns:1fr;}\n    .footer-grid{grid-template-columns:1fr;}\n  }\n"
     }}
   />
   {/* Brand Banner */}
@@ -41,9 +60,9 @@ function Home(){
             <a href="#home">Home</a>
           </li>
           <li>
-            <a >About Us</a>
+            <a href="#about">About Us</a>
           </li>
-          <li>
+          <li className="nav-item-dropdown">
             <a href="#services">
               Services{" "}
               <svg
@@ -59,39 +78,31 @@ function Home(){
                 <polyline points="6 9 12 15 18 9" />
               </svg>
             </a>
-          </li>
-          <li>
-            <a href="#solutions">Solutions</a>
+            <div className="dropdown-panel">
+              {SERVICE_LINKS.map((s) => (
+                <a key={s.label} href={s.href}>
+                  {s.label}
+                </a>
+              ))}
+            </div>
           </li>
           <li>
             <a href="#why">Why Us</a>
           </li>
           <li>
-            <a href="#resources">
-              Resources{" "}
-              <svg
-                style={{
-                  width: 10,
-                  height: 10,
-                  stroke: "currentColor",
-                  fill: "none",
-                  strokeWidth: 2
-                }}
-                viewBox="0 0 24 24"
-              >
-                <polyline points="6 9 12 15 18 9" />
-              </svg>
-            </a>
-          </li>
-          <li>
-            <a>Contact Us</a>
+            <a href="#contact">Contact Us</a>
           </li>
         </ul>
       </nav>
       <a href="#contact" className="nav-cta">
         Get a Free Consultation
       </a>
-      <button className="burger" id="menuOpenBtn" aria-label="Open menu">
+      <button
+        className="burger"
+        id="menuOpenBtn"
+        aria-label="Open menu"
+        onClick={openMobileMenu}
+      >
         <svg
           style={{
             width: 22,
@@ -109,8 +120,12 @@ function Home(){
       </button>
     </div>
   </header>
-  <div className="mobile-overlay" id="menuOverlay" />
-  <aside className="mobile-drawer" id="mobileDrawer">
+  <div
+    className={`mobile-overlay${mobileOpen ? " active" : ""}`}
+    id="menuOverlay"
+    onClick={closeMobileMenu}
+  />
+  <aside className={`mobile-drawer${mobileOpen ? " active" : ""}`} id="mobileDrawer">
     <div className="mobile-drawer-head">
       <a href="#" className="nav-logo">
         <img src={iconLogo} alt="Anmacwin Technologies" />
@@ -122,6 +137,7 @@ function Home(){
         className="mobile-close"
         id="menuCloseBtn"
         aria-label="Close menu"
+        onClick={closeMobileMenu}
       >
         <svg
           style={{
@@ -140,13 +156,20 @@ function Home(){
     </div>
     <ul className="mobile-drawer-links">
       <li>
-        <a href="#home">Home</a>
+        <a href="#home" onClick={closeMobileMenu}>Home</a>
       </li>
       <li>
-        <a href="#about">About Us</a>
+        <a href="#about" onClick={closeMobileMenu}>About Us</a>
       </li>
       <li>
-        <a href="#services">
+        <a
+          href="#services"
+          className={`mobile-services-toggle${mobileServicesOpen ? " open" : ""}`}
+          onClick={(e) => {
+            e.preventDefault();
+            setMobileServicesOpen((v) => !v);
+          }}
+        >
           Services{" "}
           <svg
             style={{ width: 11, height: 11, fill: "none", strokeWidth: 2 }}
@@ -155,30 +178,23 @@ function Home(){
             <polyline points="6 9 12 15 18 9" />
           </svg>
         </a>
+        <div className={`mobile-services-panel${mobileServicesOpen ? " open" : ""}`}>
+          {SERVICE_LINKS.map((s) => (
+            <a key={s.label} href={s.href} onClick={closeMobileMenu}>
+              {s.label}
+            </a>
+          ))}
+        </div>
       </li>
       <li>
-        <a href="#solutions">Solutions</a>
+        <a href="#why" onClick={closeMobileMenu}>Why Us</a>
       </li>
       <li>
-        <a href="#why">Why Us</a>
-      </li>
-      <li>
-        <a href="#resources">
-          Resources{" "}
-          <svg
-            style={{ width: 11, height: 11, fill: "none", strokeWidth: 2 }}
-            viewBox="0 0 24 24"
-          >
-            <polyline points="6 9 12 15 18 9" />
-          </svg>
-        </a>
-      </li>
-      <li>
-        <a href="#contact">Contact Us</a>
+        <a href="#contact" onClick={closeMobileMenu}>Contact Us</a>
       </li>
     </ul>
     <div className="mobile-drawer-cta">
-      <a href="#contact" className="btn btn-primary">
+      <a href="#contact" className="btn btn-primary" onClick={closeMobileMenu}>
         Get a Free Consultation
       </a>
     </div>
@@ -745,10 +761,7 @@ function Home(){
               <a href="#services">Services</a>
             </li>
             <li>
-              <a href="#solutions">Solutions</a>
-            </li>
-            <li>
-              <a href="#resources">Resources</a>
+              <a href="#why">Why Us</a>
             </li>
             <li>
               <a href="#contact">Contact Us</a>
